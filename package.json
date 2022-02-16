@@ -1,0 +1,26 @@
+{
+  "name": "filtering-menu",
+  "version": "1.0.0",
+  "description": "An idea for an interactive/filtering menu; initial idea will be for tea.",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webdevandy32/filtering-menu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webdevandy32/filtering-menu/issues"
+  },
+  "homepage": "https://github.com/webdevandy32/filtering-menu#readme",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.2"
+  }
+}

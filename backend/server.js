@@ -1,17 +1,26 @@
+console.log('hello!');
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const port = 3000;
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
-app.use('/', express.static(`${process.cwd()}/`));
+app.use(cors());
+app.use('/backend', express.static(`${process.cwd()}/backend`));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  app.sendFile('index.html');
+  console.log('sending the html');
+  res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/send-new-tea', (req, res) => {
+app.post('/backend/send-new-tea', (req, res) => {
 
   //let newTea = req.body;
-  console.log(req.body);
+  //console.log(req);
+  console.log('body: ', req.body);
+  console.log('params: ', req.params);
   /*fs.appendFile('database.json', newTea, err => {
     if (err) {
       console.log(err);
@@ -19,4 +28,8 @@ app.post('/send-new-tea', (req, res) => {
     }
   });
   */
+});
+
+app.listen(port, function () {
+ console.log('App listening on port: ' + port);
 });

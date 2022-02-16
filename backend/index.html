@@ -1,18 +1,25 @@
-<form action="/send-new-tea" id="new-tea">
+<!DOCTYPE html>
+
+<html>
+<head>
+        <meta charset="UTF-8">
+</head>
+<body>
+<form action="/backend/send-new-tea" method="POST" id="new-tea">
     <label for="tea-name">Name: </label>
     <input type="text" id="tea-name">
 
-    <label for="tea-brand">Name: </label>
+    <label for="tea-brand">Brand: </label>
     <input type="text" id="tea-brand">
     
-    <label for="tea-color">Name: </label>
+    <label for="tea-color">Color: </label>
     <input type="text" id="tea-color">
 
     <fieldset>
         <legend>Caffeine Level: </legend>
 
         <label for="high-box">High</label>
-        <input type="radio" id="high-box" value="High">
+        <input type="radio" name= "high-box" id="high-box" value="High">
         <label for="medium-box">Medium</label>
         <input type="radio" id="medium-box" value="Medium">
         <label for="low-box">Low</label>
@@ -24,11 +31,11 @@
         <legend>Type: </legend>
 
         <label for="black-box">Black</label>
-        <input type="checkbox" id="black-box" value="Black">
+        <input type="checkbox" name="black-box" id="black-box" value="Black">
         <label for="green-box">Green</label>
-        <input type="checkbox" id="green-box" value="Green">
+        <input type="checkbox" name="black-box" id="green-box" value="Green">
         <label for="herbal-box">Herbal</label>
-        <input type="checkbox" id="herbal-box" value="Herbal">
+        <input type="checkbox" name="herbal-box" id="herbal-box" value="Herbal">
     </fieldset>
     <fieldset>
         <legend>Tastes Like: </legend>
@@ -50,3 +57,5 @@
     </fieldset>
         <input type="submit">
 </form>
+</body>
+</html>
