@@ -17,17 +17,16 @@ app.get('/', (req, res) => {
 
 app.post('/backend/send-new-tea', (req, res) => {
 
-  //let newTea = req.body;
-  //console.log(req);
-  console.log('body: ', req.body);
-  console.log('params: ', req.params);
-  /*fs.appendFile('database.json', newTea, err => {
+  let newTea = JSON.stringify(req.body);
+  console.log(newTea);
+  console.dir(newTea);
+  fs.appendFile('database.json', newTea, err => {
     if (err) {
       console.log(err);
       return;
     }
   });
-  */
+  
 });
 
 app.listen(port, function () {
