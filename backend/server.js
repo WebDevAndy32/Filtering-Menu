@@ -20,7 +20,7 @@ app.post('/backend/send-new-tea', (req, res) => {
   let newTea = JSON.stringify(req.body);
   console.log(newTea);
   console.dir(newTea);
-  fs.appendFile('database.json', newTea, err => {
+  fs.appendFile('backend/database.json', newTea, err => {
     if (err) {
       console.log(err);
       return;

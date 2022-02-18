@@ -6,6 +6,14 @@
 </head>
 <body>
 <form action="/backend/send-new-tea" method="POST" id="new-tea">
+    <!-- credit to https://www.color-hex.com/color-palette/26746 for color palette -->
+    <datalist id="preset-palette">
+      <option value="#e7c789" />
+      <option value="#eab16b" />
+      <option value="#c18a45" />
+      <option value="#508141" />
+      <option value="#314b29" />
+    </datalist>
     <label for="tea-name">Name: </label>
     <input type="text" name="tea-name" id="tea-name">
 
@@ -13,55 +21,58 @@
     <input type="text" name="tea-brand" id="tea-brand">
     
     <label for="tea-color">Color: </label>
-    <input type="text" name="tea-color" id="tea-color">
+    <input type="color" name="tea-color" id="tea-color" list="preset-palette">
     <br />
     <fieldset>
         <legend>Caffeine Level: </legend>
 
         <label for="high-box">High</label>
-        <input type="radio" name= "high-box" id="high-box" value="High">
+        <input type="radio" name="caffeine" id="high-box" value="High">
         <label for="medium-box">Medium</label>
-        <input type="radio" name= "medium-box" id="medium-box" value="Medium">
+        <input type="radio" name="caffeine" id="medium-box" value="Medium">
         <label for="low-box">Low</label>
-        <input type="radio" name="low-box" id="low-box" value="Low">
+        <input type="radio" name="caffeine" id="low-box" value="Low">
         <label for="none-box">None</label>
-        <input type="radio" name="none-box" id="none-box" value="None">
+        <input type="radio" name="caffeine" id="none-box" value="None">
     </fieldset>
     <br />
     <fieldset>
         <legend>Type: </legend>
 
         <label for="black-box">Black</label>
-        <input type="checkbox" name="black-box" id="black-box" value="Black">
+        <input type="checkbox" name="type" id="black-box" value="Black">
         <label for="green-box">Green</label>
-        <input type="checkbox" name="green-box" id="green-box" value="Green">
+        <input type="checkbox" name="type" id="green-box" value="Green">
         <label for="herbal-box">Herbal</label>
-        <input type="checkbox" name="herbal-box" id="herbal-box" value="Herbal">
+        <input type="checkbox" name="type" id="herbal-box" value="Herbal">
     </fieldset>
     <br />
     <fieldset>
         <legend>Tastes Like: </legend>
         
         <label for="sweet-box">Sweet</label>
-        <input type="checkbox" name="sweet-box" id="sweet-box" value="Sweet">
+        <input type="checkbox" name="tastes-like" id="sweet-box" value="Sweet">
         <label for="citrusy-box">Citrusy</label>
-        <input type="checkbox" name="citrusy-box" id="citrusy-box" value="Citrusy">
+        <input type="checkbox" name="tastes-like" id="citrusy-box" value="Citrusy">
         <label for="smokey-box">Smokey</label>
-        <input type="checkbox" name="smokey-box" id="smokey-box" value="Smokey">
+        <input type="checkbox" name="tastes-like" id="smokey-box" value="Smokey">
         <label for="bitter-box">Bitter</label>
-        <input type="checkbox" name="bitter-box" id="bitter-box" value="Bitter">
+        <input type="checkbox" name="tastes-like" id="bitter-box" value="Bitter">
         <label for="aromatic-box">Aromatic</label>
-        <input type="checkbox" name="aromatic-box" id="aromatic-box" value="Aromatic">
+        <input type="checkbox" name="tastes-like" id="aromatic-box" value="Aromatic">
         <br />
         <label for="funky-box">Funky</label>
-        <input type="checkbox" name="funky-box" id="funky-box" value="Funky">
+        <input type="checkbox" name="tastes-like" id="funky-box" value="Funky">
         <label for="spicy-box">Spicy</label>
-        <input type="checkbox" name="spicy-box" id="spicy-box" value="Spicy">
+        <input type="checkbox" name="tastes-like" id="spicy-box" value="Spicy">
         <label for="spicy-box">Floral</label>
-        <input type="checkbox" name="floral-box" id="floral-box" value="Floral">
+        <input type="checkbox" name="tastes-like" id="floral-box" value="Floral">
         <label for="spicy-box">Smooth</label>
-        <input type="checkbox" name="smooth-box" id="smooth-box" value="Smooth">
+        <input type="checkbox" name="tastes-like" id="smooth-box" value="Smooth">
     </fieldset>
+    <br />
+    <label for="ingredients">Ingredients</label>
+    <input type="text-area" name="ingredients" id="ingredients" placeholder="Extra ingredients here separated by commas">
     <br />
     <input type="submit">
 </form>
