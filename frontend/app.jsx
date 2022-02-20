@@ -2,10 +2,11 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      
+      database: ["blank"]
     }
     this.selectionMenu = this.selectionMenu.bind(this);
     this.filteredMatches = this.filteredMatches.bind(this);
+    this.getDatabase = this.getDatabase.bind(this);
   }
   
   selectionMenu = () => {
@@ -23,8 +24,27 @@ class App extends React.Component{
     );
   }
   
+  getDatabase = () => {
+    fetch("https://raw.githubusercontent.com/WebDevAndy32/Filtering-Menu/main/backend/database.json")
+    .then(result => {
+          return result.json();
+          })
+    .then(jString => {
+      this.setState({
+        database: jString.teas
+      });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+  componentDidMount(){
+    this.getDatabase();
+
+  }  
+
   render(){
-    
+
     return(
       <div id='react-container'>
         <div id='menu-space'>
@@ -32,6 +52,7 @@ class App extends React.Component{
         </div>
         <div id='filtered-matches'>
           {this.filteredMatches()}
+          <br/>
         </div>
       </div>  
     );
