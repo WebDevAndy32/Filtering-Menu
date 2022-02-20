@@ -16,16 +16,33 @@ app.get('/', (req, res) => {
 });
 
 app.post('/backend/send-new-tea', (req, res) => {
-
-  let newTea = JSON.stringify(req.body);
-  console.log(newTea);
-  console.dir(newTea);
-  fs.appendFile('backend/database.json', newTea, err => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+  
+  fs.readFile('backend/database.json', (err, data) => {
+    if (err){
+      throw err;
+      }else{
+        //pulls existing file, converts buffer to string
+        let oldFile = data.toString();
+        //grabs form data (buffer) and makes an object out of it
+        let newTea = JSON.stringify(req.body);
+        newTea = JSON.parse(newTea);
+        //combine form data with existing data, then overwrites old file with new
+        let combinedFile = JSON.parse(oldFile).teas;
+        combinedFile.push(newTea);
+        let newFile = {
+          "teas": combinedFile
+        };
+        //overwrite old database file with updated
+        fs.writeFile('backend/database.json', JSON.stringify(newFile), err => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+        });
+      }
   });
+
+
   
 });
 
