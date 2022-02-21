@@ -32,10 +32,27 @@
 }
 /*=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=*/
 .selections-button{
+  min-width: fit-content;
+  width: 50%;
   padding: .5em;
   margin: .5em;
   background: rgba(0, 100, 125, .7);
   border-radius: 0px 0px 5px 5px;
+}
+.sel-but-active{
+  @extend .selections-button;
+  background: rgba(220, 220, 220, .8);
+  font-weight: 700;
+}
+.options-space{
+  display: none;
+  width: auto;
+  height: auto;
+  background: rgba(0, 100, 125, .4);
+}
+.opt-space-active{
+  @extend .options-space;
+  display: flex;
 }
 /*=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=*/
 @media only screen 
