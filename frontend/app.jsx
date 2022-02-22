@@ -6,11 +6,12 @@ class App extends React.Component{
       selections: {name: ['blank'],
                    brand: ['blank'], 
                    color: ['blank'], 
-                   caffeine: ['high', 'medium', 'low', 'none'], 
-                   type: ['black', 'green', 'white', 'herbal'], 
-                   tastesLike: ['sweet', 'citrusy', 'smokey', 'bitter', 'aromatic', 'funky', 'spicy', 'floral', 'smooth', 'fruity', 'neutral'], 
+                   caffeine: ['High', 'Medium', 'Low', 'None'], 
+                   type: ['Black', 'Green', 'White', 'Herbal'], 
+                   tastesLike: ['Sweet', 'Citrusy', 'Smokey', 'Bitter', 'Aromatic', 'Funky', 'Spicy', 'Floral', 'Smooth', 'Fruity', 'Neutral'], 
                    ingredients: ['blank']
-                  }
+                  },
+      activeSelections: []
     }
     this.selectionMenu = this.selectionMenu.bind(this);
     this.filteredMatches = this.filteredMatches.bind(this);
@@ -21,16 +22,43 @@ class App extends React.Component{
   }
   
   selectionMenu = () => {
-    
     return this.buildSelections();
   }
   //onclick for selection buttons should update filteredMatches, but how      
   filteredMatches = () => {
-    //selected buttons define search criteria
+    //selected buttons define search criteria <== done in optionsClick
     
+    let returnedMatches = () => {
+      let filterMatchBank = [];
+      //look at each tea(item), see if it matches any of activeSelections, push to filterMatchBank if true
+      this.state.database.forEach((item, index) => {
+        let shouldPush = false;
+        for(var x = 0; x < this.state.activeSelections.length; x++){
+          const keyVal = Object.keys(this.state.activeSelections[x]);
+          //console.log('keyVal: ', keyVal);
+          //console.log('criteria keyVal: ', this.state.activeSelections[x][keyVal]);
+          //console.log('tea keyval: ', item[keyVal]);
+          if(this.state.activeSelections[x][keyVal] == item[keyVal]){
+            shouldPush = true;
+          }
+        }
+        //console.log('item + shouldPush:', item + ' + ' + shouldPush);
+        if(shouldPush == true){
+          filterMatchBank.push(item);
+        }
+      });
+      return filterMatchBank;
+    }
     //use search criteria to match tea objects
+    if(this.state.activeSelections.length > 0){
+      let results = returnedMatches();
+      console.log('results:', results);
+    }else{
+//initial or nothing selected should show all available teas 
+      console.log('all matches!');
+    }
     
-    //display matching teas on screen
+    //display matching teas on screen    
     return (
      "I am filteredMatched"
     );
@@ -87,17 +115,41 @@ class App extends React.Component{
     
     let stateId = buttonId.slice(4);
     let selOptSpace = document.getElementById('sel-options-' + stateId);
-    let stateValues = this.state.stateId;
     
-    selOptSpace.classList.toggle('opt-space-active');
-    
+    //cond. prevents misclicks from causing errors
+    if(selOptSpace !== null){
+      selOptSpace.classList.toggle('opt-space-active');
+    }
   }
   
   optionsClick = () => {
     let buttonId = event.target.id;
     let clickedButton = document.getElementById(buttonId);
     
-    clickedButton.classList.toggle('sel-but-active'); 
+    clickedButton.classList.toggle('sel-but-active');
+    
+    let tempArray = buttonId.split("-"),
+        tempKeyVal = new Object({[tempArray[1]] : tempArray[2]});
+
+    let activeArray = this.state.activeSelections;
+    /*catches the index of matches between activeSelections and button's selection value*/
+    let isMatch = [];
+    activeArray.forEach((x, i) => {
+      if(JSON.stringify(x) === JSON.stringify(tempKeyVal)){
+        isMatch.push(i);
+      }
+    });
+    //console.log('isMatch: ', isMatch);
+    if(isMatch.length < 1){
+      activeArray.push(tempKeyVal);
+    }else{
+      let cutPoint = activeArray[isMatch];
+      activeArray.splice(cutPoint, 1);
+    }
+    this.setState({
+      activeSelections: activeArray
+    });
+    //console.log("state:", this.state.activeSelections);
   }
   
   componentDidMount(){
@@ -109,11 +161,11 @@ class App extends React.Component{
 
     return(
       <div id='react-container'>
-        <div id='menu-space'>
-          {this.selectionMenu()}
-        </div>
         <div id='filtered-matches'>
           {this.filteredMatches()}
+        </div>
+        <div id='menu-space'>
+          {this.selectionMenu()}
           <br/>
         </div>
       </div>  
