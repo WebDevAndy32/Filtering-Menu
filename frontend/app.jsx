@@ -8,7 +8,7 @@ class App extends React.Component{
                    color: ['blank'], 
                    caffeine: ['High', 'Medium', 'Low', 'None'], 
                    type: ['Black', 'Green', 'White', 'Herbal'], 
-                   tastesLike: ['Sweet', 'Citrusy', 'Smokey', 'Bitter', 'Aromatic', 'Funky', 'Spicy', 'Floral', 'Smooth', 'Fruity', 'Neutral'], 
+                   tastes: ['Sweet', 'Citrusy', 'Smokey', 'Bitter', 'Aromatic', 'Funky', 'Spicy', 'Floral', 'Smooth', 'Fruity', 'Neutral'], 
                    ingredients: ['blank']
                   },
       activeSelections: []
@@ -35,11 +35,24 @@ class App extends React.Component{
         let shouldPush = false;
         for(var x = 0; x < this.state.activeSelections.length; x++){
           const keyVal = Object.keys(this.state.activeSelections[x]);
-          //console.log('keyVal: ', keyVal);
+          console.log('keyVal: ', keyVal);
+          console.dir('item: ', item);
           //console.log('criteria keyVal: ', this.state.activeSelections[x][keyVal]);
           //console.log('tea keyval: ', item[keyVal]);
-          if(this.state.activeSelections[x][keyVal] == item[keyVal]){
-            shouldPush = true;
+          //conditional sorts for if keyVal is an array or just a single value
+          console.log('typeof keyval: ', typeof item[keyVal]);
+          if(typeof item[keyVal] == 'string'){
+            if(this.state.activeSelections[x][keyVal] == item[keyVal]){
+                shouldPush = true;
+              }            
+          }else{
+            //this cond. handles array values like in tastesLike, then tests activeselection vs. all array items
+            console.log('item key value: ', item[keyVal]);
+            for(var y = 0; y < item[keyVal].length; y++){
+              if(this.state.activeSelections[x][keyVal] == item[keyVal][y]){
+                shouldPush = true;
+              }            
+            }
           }
         }
         //console.log('item + shouldPush:', item + ' + ' + shouldPush);
