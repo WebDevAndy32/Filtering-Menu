@@ -35,12 +35,7 @@ class App extends React.Component{
         let shouldPush = false;
         for(var x = 0; x < this.state.activeSelections.length; x++){
           const keyVal = Object.keys(this.state.activeSelections[x]);
-          console.log('keyVal: ', keyVal);
-          console.dir('item: ', item);
-          //console.log('criteria keyVal: ', this.state.activeSelections[x][keyVal]);
-          //console.log('tea keyval: ', item[keyVal]);
-          //conditional sorts for if keyVal is an array or just a single value
-          console.log('typeof keyval: ', typeof item[keyVal]);
+
           if(typeof item[keyVal] == 'string'){
             if(this.state.activeSelections[x][keyVal] == item[keyVal]){
                 shouldPush = true;
@@ -108,7 +103,7 @@ class App extends React.Component{
      });
      
      let newElement = (
-     <div id={'sel-' + ki} key={'sel-' + ki} onClick={this.selectionsClick} className='selections-button'>
+     <div id={'r-sel-' + ki} key={'sel-' + ki} onClick={this.selectionsClick} className='selections-button'>
          {ki}
          <div id={'sel-options-' + ki} id={'sel-options-' + ki} className='options-space'>
            {optionButtons}
@@ -122,23 +117,23 @@ class App extends React.Component{
   
   selectionsClick = () => {
     let buttonId = event.target.id;
-    let clickedButton = document.getElementById(buttonId);
-    
-    clickedButton.classList.toggle('sel-but-active');    
-    
-    let stateId = buttonId.slice(4);
-    let selOptSpace = document.getElementById('sel-options-' + stateId);
-    
-    //cond. prevents misclicks from causing errors
-    if(selOptSpace !== null){
-      selOptSpace.classList.toggle('opt-space-active');
+    //cond. prevents misclicks from causing errors    
+    if(buttonId.includes('r-sel')){
+      let clickedButton = document.getElementById(buttonId);
+
+      clickedButton.classList.toggle('sel-but-active');    
+
+      let stateId = buttonId.slice(6);
+      let selOptSpace = document.getElementById('sel-options-' + stateId);
+
+      selOptSpace.classList.toggle('opt-space-active');      
     }
   }
-  
+  //switches option button on/off, updates activeSelections with clicked button value
   optionsClick = () => {
     let buttonId = event.target.id;
     let clickedButton = document.getElementById(buttonId);
-    
+    console.log('buttonId', buttonId);
     clickedButton.classList.toggle('sel-but-active');
     
     let tempArray = buttonId.split("-"),
