@@ -19,6 +19,7 @@ class App extends React.Component{
     this.selectionMenu = this.selectionMenu.bind(this);
     this.filteredMatches = this.filteredMatches.bind(this);
     this.getDatabase = this.getDatabase.bind(this);
+    this.formatIngredients = this.formatIngredients.bind(this);
     this.buildSelections = this.buildSelections.bind(this);
     this.selectionsClick = this.selectionsClick.bind(this);
     this.optionsClick = this.optionsClick.bind(this);
@@ -92,16 +93,28 @@ class App extends React.Component{
     return filteredMatches;
   }
 
+  formatIngredients = (dBase) => {
+    let tempDatabase = dBase;
+    tempDatabase.forEach(tea => {
+      let newArray = tea.ingredients.split(', ');
+      tea.ingredients = newArray;
+    });
+    console.log(tempDatabase);
+
+    this.setState({
+      database: tempDatabase
+    });
+
+  }
+
   getDatabase = () => {
     fetch("https://raw.githubusercontent.com/WebDevAndy32/Filtering-Menu/main/backend/database.json")
     .then(result => {
           return result.json();
           })
     .then(jString => {
-      this.setState({
-        database: jString.teas
-      });
-      return jString.teas
+      this.formatIngredients(jString.teas);
+      return;
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -118,10 +131,10 @@ class App extends React.Component{
     //console.log('formattedListName: ', formattedListName);
 
     this.state.database.forEach(targetKey => {
-      console.log('target key: ', targetKey);
+      //console.log('target key: ', targetKey);
       listValues.push(targetKey[formattedListName]);
     });
-    //console.dir('listValues', listValues);
+    console.dir('listValues', listValues);
 
     //populate state.selections with values
     //WARNING THIS SETSTATE CAUSES INFINITE LOOP FOR SOME REASON
@@ -133,14 +146,35 @@ class App extends React.Component{
         [list] : listValues
       }
     }));*/
-    console.dir('selection state: ', this.state.selections);    
+    //console.dir('selection state: ', this.state.selections);    
     //build a datalist element with the values
-    let newDataList = listValues.map(val => {
+    let newDataList = [];
+    let bank = [];
+    listValues.forEach(val => {
+      //console.dir('val @ 152', val, typeof val);
+      if(typeof(val) === 'string'){
+        if(bank.indexOf(val) === -1){
+          let formattedVal = val.replace(' ', '-');
+          let newOption = (
+            <option value={val} id={formattedVal} key={formattedVal} />
+          );
+          newDataList.push(newOption);
+          bank.push(val); 
+        }  
+      }else{
+        for(var x = 0; x < val.length; x++){
+          console.log('arr side, index to bank', bank.indexOf(val[x]), bank);
+          if(bank.indexOf(val[x]) === -1){
+            let formattedVal = val[x].replace(' ', '-');
+            let newOption = (
+              <option value={val[x]} id={formattedVal} key={formattedVal} />
+            );
+            newDataList.push(newOption);
+            bank.push(val[x]);
+          } 
+        }
+      }
 
-      let formattedVal = val.replace(' ', '-');
-      return (
-        <option value={val} id={formattedVal} key={formattedVal} />
-      );
     });
     //console.dir('newDataList: ', newDataList);
     //serve the datalist element
@@ -246,7 +280,6 @@ class App extends React.Component{
   
   componentDidMount(){
       this.getDatabase();
-      //this.buildSelections();
   }  
 
   render(){
