@@ -51,6 +51,9 @@
   background: rgba(220, 220, 220, .8);
   font-weight: 700;
 }
+.sel-menu-active{
+  @extend .sel-but-active;
+}
 .options-space{
   display: none;
   width: auto;
