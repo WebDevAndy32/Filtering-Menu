@@ -14,7 +14,8 @@ class App extends React.Component{
                     tastes: ['Sweet', 'Citrusy', 'Smokey', 'Bitter', 'Aromatic', 'Funky', 'Spicy', 'Floral', 'Smooth', 'Fruity', 'Neutral'], 
                     ingredients: ['blank']
                   },
-      activeSelections: []
+      activeSelections: [],
+      optionInject: ''
     }
     this.selectionMenu = this.selectionMenu.bind(this);
     this.filteredMatches = this.filteredMatches.bind(this);
@@ -24,6 +25,10 @@ class App extends React.Component{
     this.selectionsClick = this.selectionsClick.bind(this);
     this.optionsClick = this.optionsClick.bind(this);
     this.buildDataList = this.buildDataList.bind(this);
+    this.valInject = this.valInject.bind(this);
+    this.formClick = this.formClick.bind(this);
+    this.updateActiveSelections = this.updateActiveSelections.bind(this);
+    this.clearSelections = this.clearSelections.bind(this);
   }
   
   selectionMenu = () => {
@@ -37,18 +42,25 @@ class App extends React.Component{
       let filterMatchBank = [];
       //look at each tea(item), see if it matches any of activeSelections, push to filterMatchBank if true
       this.state.database.forEach((item, index) => {
+        console.dir('item: ',item);
         let shouldPush = false;
         for(var x = 0; x < this.state.activeSelections.length; x++){
           const keyVal = Object.keys(this.state.activeSelections[x]);
-
-          if(typeof item[keyVal] == 'string'){
+          
+          if(item[keyVal] == undefined){
+            //catch missing values and logs them to console instead of letting them break everything :|
+            console.log(`${item['tea-name']} is missing a value for ${keyVal}`);
+          }else if(typeof item[keyVal] === 'string'){
+            console.log('string item keyval: ', item[keyVal], typeof item[keyVal]);
+            console.log('above compared to this from activeselections: ', this.state.activeSelections[x][keyVal]);
             if(this.state.activeSelections[x][keyVal] == item[keyVal]){
                 shouldPush = true;
               }            
           }else{
             //this cond. handles array values like in tastesLike, then tests activeselection vs. all array items
-            //console.log('item key value: ', item[keyVal]);
+            console.log('item key value: ', item[keyVal], item[keyVal]);
             for(var y = 0; y < item[keyVal].length; y++){
+              console.log('cond. compare @57', this.state.activeSelections[x][keyVal], item[keyVal][y]);
               if(this.state.activeSelections[x][keyVal] == item[keyVal][y]){
                 shouldPush = true;
               }            
@@ -134,7 +146,7 @@ class App extends React.Component{
       //console.log('target key: ', targetKey);
       listValues.push(targetKey[formattedListName]);
     });
-    console.dir('listValues', listValues);
+    //console.dir('listValues', listValues);
 
     //populate state.selections with values
     //WARNING THIS SETSTATE CAUSES INFINITE LOOP FOR SOME REASON
@@ -163,7 +175,7 @@ class App extends React.Component{
         }  
       }else{
         for(var x = 0; x < val.length; x++){
-          console.log('arr side, index to bank', bank.indexOf(val[x]), bank);
+          //console.log('arr side, index to bank', bank.indexOf(val[x]), bank);
           if(bank.indexOf(val[x]) === -1){
             let formattedVal = val[x].replace(' ', '-');
             let newOption = (
@@ -179,8 +191,8 @@ class App extends React.Component{
     //console.dir('newDataList: ', newDataList);
     //serve the datalist element
     return(
-      <form>
-        <input list={formattedListName} />
+      <form id={formattedListName + '-form'} onSubmit={this.formClick}>
+        <input list={formattedListName}  onChange={this.valInject} value={this.state.optionInject}/>
         <datalist id={formattedListName} >
           {newDataList}
         </datalist>
@@ -230,6 +242,10 @@ class App extends React.Component{
       );
       elementCollector.push(newElement);
     });
+    let clearButton = (
+    <div id='opt-clear' className='selections-button' onClick={this.clearSelections}>Clear Search Criteria</div>
+    );
+    elementCollector.push(clearButton);
     return elementCollector;
   }
   
@@ -239,7 +255,7 @@ class App extends React.Component{
     if(buttonId.includes('r-sel')){
       let clickedButton = document.getElementById(buttonId);
 
-      clickedButton.classList.toggle('sel-but-active');    
+      clickedButton.classList.toggle('sel-menu-active');    
 
       let stateId = buttonId.slice(6);
       let selOptSpace = document.getElementById('sel-options-' + stateId);
@@ -248,6 +264,29 @@ class App extends React.Component{
     }
   }
   //switches option button on/off, updates activeSelections with clicked button value
+  updateActiveSelections = (newObj) => {
+
+    let activeArray = this.state.activeSelections;
+    console.dir('active sel. @ updateActive... : ', activeArray);
+    /*catches the index of matches between activeSelections and button's selection value*/
+    let isMatch = [];
+    activeArray.forEach((x, i) => {
+      if(JSON.stringify(x) === JSON.stringify(newObj)){
+        isMatch.push(i);
+      }
+    });
+    //console.log('isMatch: ', isMatch);
+    if(isMatch.length < 1){
+      activeArray.push(newObj);
+    }else{
+      let cutPoint = activeArray[isMatch];
+      activeArray.splice(cutPoint, 1);
+    }
+    this.setState({
+      activeSelections: activeArray
+    });
+
+  }
   optionsClick = () => {
     let buttonId = event.target.id;
     let clickedButton = document.getElementById(buttonId);
@@ -257,25 +296,42 @@ class App extends React.Component{
     let tempArray = buttonId.split("-"),
         tempKeyVal = new Object({[tempArray[1]] : tempArray[2]});
 
-    let activeArray = this.state.activeSelections;
-    /*catches the index of matches between activeSelections and button's selection value*/
-    let isMatch = [];
-    activeArray.forEach((x, i) => {
-      if(JSON.stringify(x) === JSON.stringify(tempKeyVal)){
-        isMatch.push(i);
-      }
-    });
-    //console.log('isMatch: ', isMatch);
-    if(isMatch.length < 1){
-      activeArray.push(tempKeyVal);
-    }else{
-      let cutPoint = activeArray[isMatch];
-      activeArray.splice(cutPoint, 1);
-    }
+    this.updateActiveSelections(tempKeyVal);
+
+  }
+  
+  valInject = () => {
     this.setState({
-      activeSelections: activeArray
+      optionInject: event.target.value
     });
-    //console.log("state:", this.state.activeSelections);
+    //event.preventDefault();
+  }
+  
+  formClick = () => {
+    event.preventDefault();
+    console.log('target id: ', event.target.id);
+    let newKey = event.target.id.slice(0, -5);
+    console.log('newKey: ', newKey)
+    let newVal = this.state.optionInject;
+    let formKeyVal = new Object({[newKey] : newVal});
+    console.dir('formKeyVal @ formClick: ', formKeyVal);
+    this.updateActiveSelections(formKeyVal);
+
+    this.setState({
+      optionInject: ''
+    });
+  }
+
+  clearSelections = () => {
+    this.setState({
+      activeSelections: []
+    });
+    
+    let activeButtons = document.getElementsByClassName('sel-but-active');
+    let buttonKeys = Object.keys(activeButtons);
+    buttonKeys.forEach(key => {
+      activeButtons[key].classList.toggle('sel-but-active');
+    });
   }
   
   componentDidMount(){
