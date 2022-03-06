@@ -71,8 +71,33 @@
   background: rgba(0, 75, 225, .7);
   margin: 1em;
 }
-
-
+.svg-test{
+  position: relative;
+  height: 50%; 
+  width: 50%; 
+  padding: 2%;
+  margin: 2%;
+  
+  background: rgba(200, 0, 75, .5);
+}
+.cup{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 95%;
+    width: 95%;
+}
+.gen-path{
+  transform: translate(0.000000,325.000000) scale(0.100000,-0.100000);
+}
+.liquid-path{
+  fill: transparent;
+  stroke: none;
+}
+.cup-paths{
+  fill: black;
+  stroke: black;
+}
 /*=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=*/
 @media only screen 
   and (min-device-width: 375px) 
