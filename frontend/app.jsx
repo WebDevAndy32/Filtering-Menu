@@ -97,7 +97,7 @@ class App extends React.Component{
                   </li>
               </ul>
               <div className='svg-test'>
-                {svgCup}
+                {svgCup(elem['tea-color'])}
               </div>  
               <span style={{background: elem['tea-color']}}></span>
           </div>
@@ -344,22 +344,21 @@ class App extends React.Component{
   render(){
 
 
-const svgCup = (
+const svgCup = (fillColor) => {
+  
 /*big ugly svg element below. ends @ line 552*/
 //id for liquid g element is 'liquid-path'
 //id for cup g element is 'cup-paths'
-  <svg
+  return (<svg
     id='tea-cup'
     class='cup'
     viewBox='0 0 300 300'>
     <g 
      class='gen-path liquid-path'
      transform="translate(0.000000,325.000000) scale(0.100000,-0.100000)"
-     fill="transparent"
+     fill={fillColor}
      stroke="none">
     <path
-       
-       fill="green"
        d="M1852.844 2379.454 c 172,-27 335.6531,-91 335.6531,-128 0,-7 0.5029,-85.454 -13.4971,-192.454 -14,-107 -35,-264 -46,-349 -11,-85 -31,-231 -45,-325 -14,-93 -27,-197 -28,-230 -2,-33 -15,-150 -30,-260 C 1974,490 1964,465 1792,325 1661,218 1636,204 1489,154 l -144,-49 h -180 c -191,0 -250,10 -352,56 -104,48 -243,154 -243,185 0,7 -11,26 -25,42 -14,17 -32,50 -41,74 -21,60 -68,322 -115,641 -31,214 -141.84399,945.688 -169.84399,1115.688 27.15257,40.3299 50.56397,59.6564 102.84399,76.312 144,45 329,79 543,99 94,9 186,18 205,20 86,10 694.844,-19.546 782.844,-34.546 z" />
     </g>
     <g 
@@ -559,16 +558,16 @@ const svgCup = (
     <path d="M1228 143 c7 -3 16 -2 19 1 4 3 -2 6 -13 5 -11 0 -14 -3 -6 -6z"/>
   </g>
   </svg>  
-);
+  );
+}
     
     return(
       <div id='react-container'>
-        <div id='filtered-matches'>
-          {this.filteredMatches(svgCup)}
-        </div>
         <div id='menu-space'>
           {this.selectionMenu()}
-          <br/>
+        </div>
+        <div id='filtered-matches'>
+          {this.filteredMatches(svgCup)}
         </div>
         <div>
           <svg href="https://raw.githubusercontent.com/WebDevAndy32/Filtering-Menu/main/svg%20full%20simple%20closed.svg">
