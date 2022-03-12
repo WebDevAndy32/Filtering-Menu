@@ -57,12 +57,14 @@ $filter-match-background: #555;
 .selections-button{
   /*display: flex;
   flex-direction: column;*/
-  width: 40%;
-  min-width: fit-content;
+  width: 60%;
+  font-weight: 400;
+  font-size: 1em;
   min-height: fit-content;
-  padding: .2em;
+  padding: .2em .6em .2em .2em;
   margin: .2em;
-  background: rgba(224, 224, 224, .8);
+  background: linear-gradient(-30deg, #888, #bbb, #ddd, #eee);
+  color: #000;
   @include basic-border();
   transition: 150ms;
 }
@@ -90,7 +92,8 @@ $filter-match-background: #555;
     max-width: 90%;
     margin: .1em .25em .1em .25em;
     padding: 2px;
-    background: #eee;
+    background: rgba(225, 225, 225, .6);
+    @include basic-border();
   }
 }
 .opt-space-active{
@@ -154,17 +157,35 @@ $filter-match-background: #555;
 @media only screen 
   and (orientation: portrait)
   and (min-device-width: 375px) 
-  and (max-device-width: 812px) 
+  //and (max-device-width: 812px) 
   and (-webkit-min-device-pixel-ratio: 3) { 
-    #menu-space{
-      grid-column: 1 / 2; 
-      grid-row: 1;
+    #react-container{
+      grid-template-columns: 40% 60%;
     }
-    #filtered-matches{
-      grid-column: 2 / 3; 
-      grid-row: 2;
+    .sel-menu-active{
+      width: 75%;
+    }
+    .selections-button{
+      width: 80%;
     }
     .filtered-item{
-      width: 100%;
+      width: 80%;
+    }
+    .opt-space-active form input{
+      max-width: 70%;
+    }
+}
+@media only screen 
+  and (orientation: landscape)
+  and (min-device-width: 812px) 
+  //and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    .filtered-item{
+      height: 85%;
+      width: 33%;
+    }
+    .selections-button{
+        padding: .1em .4em .1em .1em;
+        font-size: .9em;
     }
 }
