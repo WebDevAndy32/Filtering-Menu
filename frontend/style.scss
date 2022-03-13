@@ -76,9 +76,12 @@ $filter-match-background: #555;
   font-size: 1.1em;
   font-weight: 700;
 }
+.opt-but-active{
+  @extend .sel-but-active;
+}
 .sel-menu-active{
   @extend .sel-but-active;
-  width: 85%
+  width: 75%
 }
 .options-space{
   display: none;
@@ -101,6 +104,10 @@ $filter-match-background: #555;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+}
+.options-button{
+  @extend .selections-button;
+  width: 80%;
 }
 /*=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=*/
 .filtered-item{
