@@ -250,7 +250,7 @@ class App extends React.Component{
       }else{
         this.state.selections[ki].forEach(option => {
           let newButton = (
-              <div id={'opt-' + ki + '-' + option} key={'opt-' + ki + '-' + option} onClick={this.optionsClick} className='selections-button' >
+              <div id={'opt-' + ki + '-' + option} key={'opt-' + ki + '-' + option} onClick={this.optionsClick} className='options-button' >
               {option}
               </div>
           );
@@ -320,7 +320,7 @@ class App extends React.Component{
     let buttonId = event.target.id;
     let clickedButton = document.getElementById(buttonId);
     console.log('buttonId', buttonId);
-    clickedButton.classList.toggle('sel-but-active');
+    clickedButton.classList.toggle('opt-but-active');
     
     let tempArray = buttonId.split("-"),
         tempKeyVal = new Object({[tempArray[1]] : tempArray[2]});
