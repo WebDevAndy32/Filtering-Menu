@@ -81,25 +81,27 @@ class App extends React.Component{
     //initial or nothing selected should show all available teas 
       results = this.state.database;
     }
-    
+    console.log('@84 active selections from state: ', this.state.activeSelections);
     //display matching teas on screen
     let filteredMatches = [];
     
     results.forEach(elem => {
       let elemToRender = (
           <div id={elem['tea-name']} key={elem['tea-name']} className='filtered-item'>
-              <ul>
-                  <li id={elem['tea-name'] + '-li-1'} key={elem['tea-name'] + '-li-1'}>
-                      {elem['tea-name']}
-                  </li>
-                  <li id={elem['tea-brand'] + '-li-2'} key={elem['tea-brand'] + '-li-2'}>
-                      {elem['tea-brand']}
-                  </li>
-              </ul>
-              <div className='svg-test'>
-                {svgCup(elem['tea-color'])}
-              </div>  
-              <span style={{background: elem['tea-color']}}></span>
+            <div className='word-space'>
+              <h3 className='filter-item-name' id={elem['tea-name'] + '-h3'} key={elem['tea-name'] + '-h3'}>
+                {elem['tea-name']}
+              </h3>
+              <h4 className='filter-item-brand' id={elem['tea-brand'] + '-h4'} key={elem['tea-brand'] + '-h4'}>
+                By: {elem['tea-brand']}
+             </h4>
+             <h5 className='filter-item-tastes' id={elem['tea-name'] + '-tastes-h5'} key={elem['tea-name'] + '-tastes-h5'}>
+              Tastes: <br/> {elem['tastes']}
+             </h5>  
+            </div>
+            <div className='svg-test'>
+              {svgCup(elem['tea-color'])}
+            </div>  
           </div>
       );
       filteredMatches.push(elemToRender);
@@ -114,8 +116,7 @@ class App extends React.Component{
       let newArray = tea.ingredients.split(', ');
       tea.ingredients = newArray;
     });
-    console.log(tempDatabase);
-
+    console.log('@119 tempDatabase (activeselections): ', tempDatabase);
     this.setState({
       database: tempDatabase
     });
@@ -274,17 +275,19 @@ class App extends React.Component{
     /*catches the index of matches between activeSelections and button's selection value*/
     let isMatch = [];
     activeArray.forEach((x, i) => {
+      console.log('@279 matches: ', x, newObj);
       if(JSON.stringify(x) === JSON.stringify(newObj)){
         isMatch.push(i);
       }
     });
-    //console.log('isMatch: ', isMatch);
+    console.log('isMatch: ', isMatch);
     if(isMatch.length < 1){
       activeArray.push(newObj);
     }else{
-      let cutPoint = activeArray[isMatch];
+      let cutPoint = isMatch;
       activeArray.splice(cutPoint, 1);
     }
+    console.log('@290 active array: ', activeArray);
     this.setState({
       activeSelections: activeArray
     });
@@ -293,7 +296,7 @@ class App extends React.Component{
   optionsClick = () => {
     let buttonId = event.target.id;
     let clickedButton = document.getElementById(buttonId);
-    //console.log('buttonId', buttonId);
+    console.log('buttonId', buttonId);
     clickedButton.classList.toggle('sel-but-active');
     
     let tempArray = buttonId.split("-"),
