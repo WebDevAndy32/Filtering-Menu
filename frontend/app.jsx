@@ -111,7 +111,7 @@ class App extends React.Component{
                   By: {elem['tea-brand']}
                </h4>
                <h5 className='filter-item-tastes' id={elem['tea-name'] + '-tastes-h5'} key={elem['tea-name'] + '-tastes-h5'}>
-                Tastes: <br/>
+                Tastes: 
                  <ul>{formattedTastes}</ul>
                </h5>  
               </div>
@@ -138,6 +138,12 @@ class App extends React.Component{
     tempDatabase.forEach(tea => {
       let newArray = tea.ingredients.split(', ');
       tea.ingredients = newArray;
+      //single taste entries come through as a string and break the li mapping function aboe, this makes them an array
+      if(typeof tea.tastes == 'string'){
+        let newTasteArray = [];
+        newTasteArray.push(tea.tastes);
+        tea.tastes = newTasteArray;
+      }
     });
     console.log('@119 tempDatabase (activeselections): ', tempDatabase);
     this.setState({
