@@ -128,7 +128,7 @@ $filter-match-background: #555;
     z-index: 3;
   }
   .word-space{
-    @include assign-grid-space(1 / 4);
+    @include assign-grid-space((1 / span 3));
     justify-self: start;
     align-self: start; 
   }
@@ -180,39 +180,63 @@ $filter-match-background: #555;
 /*=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=/=*/
 @media only screen 
   and (orientation: portrait)
-  and (min-device-width: 375px) 
-  //and (max-device-width: 812px) 
-  and (-webkit-min-device-pixel-ratio: 3) { 
-    #react-container{
-      grid-template-columns: 40% 60%;
+  and (max-width: 450px) 
+  //and (max-device-width: 500px) 
+  //and (-webkit-min-device-pixel-ratio: 3)
+  //and (-webkit-max-device-pixel-ratio: 4)
+  //and (min-resolution: 2dppx) 
+{ 
+    /*#filtered-matches{
+      background: green;
+    }*/
+  .filtered-item{
+    width: 10em;
+    height: 15.5em;
+      .word-space{
+        ul{
+          margin: 2px;
+        }
+      } 
     }
     .sel-menu-active{
-      width: 75%;
+      width: 70%;
     }
     .selections-button{
       width: 80%;
     }
-    .filtered-item{
-      width: 80%;
+  .options-button{
+      width: 160%;
     }
     .opt-space-active{
       max-width: 40%;
       form input{
-        max-width: 70%;
+        max-width: 50%;
       }
     }
     .sel-menu-active{
-      max-width: 80%;
+      max-width: 75%;
     }
 }
 @media only screen 
   and (orientation: landscape)
-  and (min-device-width: 812px) 
-  //and (max-device-width: 812px) 
-  and (-webkit-min-device-pixel-ratio: 3) { 
+  and (max-width: 950px) 
+  //and (max-device-width: 950px) 
+  //and (min-resolution: 2dppx) 
+{ 
+    /*#filtered-matches{
+      background: pink;
+    }*/
     .filtered-item{
-      height: 85%;
-      width: 33%;
+      width: 9em;
+      height: 14em;
+        .word-space {
+          h4, h5{
+            margin-top: .1em;
+          }
+          ul{
+            margin: 2px;
+          }
+      } 
     }
     .selections-button{
         padding: .1em .4em .1em .1em;
