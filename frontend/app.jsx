@@ -42,33 +42,38 @@ class App extends React.Component{
                 <div>LOADING...</div>
             );
         }else{
-        
+            
             let returnedMatches = () => {
                 let filterMatchBank = [];
                 //look at each tea(item), see if it matches any of activeSelections, push to filterMatchBank if true
+                console.dir('***==============active selections:', this.state.activeSelections);
                 this.state.database.forEach((item, index) => {
                 //console.dir('item: ',item);
-                    let shouldPush = false;
+                    //let shouldPush = false;
+                    let matchingSelectionsCount = 0;                  
+                    let fitsSelectionsLog = [];
                     for(var x = 0; x < this.state.activeSelections.length; x++){
                         const keyVal = Object.keys(this.state.activeSelections[x]);
-                        
+
                         if(item[keyVal] == undefined){
                             //catch missing values and logs them to console instead of letting them break everything :|
                             console.log(`${item['tea-name']} is missing a value for ${keyVal}`);
                         }else if(typeof item[keyVal] === 'string'){
                             if(this.state.activeSelections[x][keyVal] == item[keyVal]){
-                                shouldPush = true; 
-                            }         
+                                matchingSelectionsCount++;
+                            }
                         }else{
                         //this cond. handles array values like in tastesLike, then tests activeselection vs. all array items
                             for(var y = 0; y < item[keyVal].length; y++){
                                 if(this.state.activeSelections[x][keyVal] == item[keyVal][y]){
-                                    shouldPush = true;
-                                }            
+                                    matchingSelectionsCount++;
+                                }
                             }
                         }
                     }
-                    if(shouldPush == true){
+                
+                    console.dir(fitsSelectionsLog);
+                    if(matchingSelectionsCount >= this.state.activeSelections.length){
                         filterMatchBank.push(item);
                     }
                 });
