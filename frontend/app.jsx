@@ -94,9 +94,14 @@ class App extends React.Component{
         
             results.forEach(elem => {
 
-                let formattedTastes = elem['tastes'].map(thing => {
+                let formattedTastes = () => {
+                  if(typeof elem['tastes'] == string){
+                    return (<li>{elem['tastes']}</li>);
+                  }
+                  elem['tastes'].map(thing => {
                     return (<li>{thing}</li>);
-                });
+                  });
+                }
 
                 let elemToRender = (
                     <div id={elem['tea-name']} key={elem['tea-name']} className='filtered-item'>
