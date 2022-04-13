@@ -94,14 +94,10 @@ class App extends React.Component{
         
             results.forEach(elem => {
 
-                let formattedTastes = () => {
-                  if(typeof elem['tastes'] == string){
-                    return (<li>{elem['tastes']}</li>);
-                  }
-                  elem['tastes'].map(thing => {
-                    return (<li>{thing}</li>);
-                  });
-                }
+                let formattedTastes = elem['tastes'].map(thing => {
+                      return (<li>{thing}</li>);
+                    });
+   
 
                 let elemToRender = (
                     <div id={elem['tea-name']} key={elem['tea-name']} className='filtered-item'>
@@ -352,13 +348,13 @@ class App extends React.Component{
             activeSelections: []
         });
 
-        let activeButtons = document.getElementsByClassName('sel-but-active');
+        let activeButtons = document.getElementsByClassName('opt-but-active');
         let buttonKeys = Object.keys(activeButtons);
 
         buttonKeys.forEach(key => {
-            activeButtons[key].classList.toggle('sel-but-active');
-        });
-
+            activeButtons[key].classList.toggle('opt-but-active');
+        });     
+      
         let clearButton = document.getElementById('opt-clear');
         let originalBackground = clearButton.style.background;
         //flashes red to let user feedback that their click registered
